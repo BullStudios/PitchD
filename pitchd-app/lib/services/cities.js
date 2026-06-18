@@ -1,6 +1,7 @@
 import { supabase } from '@/lib/supabase'
 
 export async function getAllCities() {
+  if (!supabase) return []
   const { data, error } = await supabase
     .from('cities')
     .select(`
@@ -16,6 +17,7 @@ export async function getAllCities() {
 }
 
 export async function getCityBySlug(slug) {
+  if (!supabase) return null
   const { data, error } = await supabase
     .from('cities')
     .select(`
