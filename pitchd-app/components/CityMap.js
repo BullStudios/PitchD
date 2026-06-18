@@ -9,12 +9,17 @@ export default function CityMap({ lat, lng, pitches = [] }) {
   useEffect(() => {
     if (mapRef.current || !containerRef.current) return
 
-    let L
-    Promise.all([
-      import('leaflet'),
-      import('leaflet/dist/leaflet.css'),
-    ]).then(([mod]) => {
-      L = mod.default
+    // Inject Leaflet CSS once
+    if (!document.getElementById('leaflet-css')) {
+      const link = document.createElement('link')
+      link.id = 'leaflet-css'
+      link.rel = 'stylesheet'
+      link.href = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css'
+      document.head.appendChild(link)
+    }
+
+    import('leaflet').then(mod => {
+      const L = mod.default
 
       const map = L.map(containerRef.current, {
         center: [lat, lng],
@@ -29,7 +34,6 @@ export default function CityMap({ lat, lng, pitches = [] }) {
         maxZoom: 19,
       }).addTo(map)
 
-      // Custom marker icon
       const pitchIcon = L.divIcon({
         className: '',
         html: `<div style="
@@ -79,12 +83,8 @@ export default function CityMap({ lat, lng, pitches = [] }) {
           box-shadow: 0 4px 12px rgba(0,0,0,0.12);
           padding: 0;
         }
-        .pitchd-popup .leaflet-popup-content {
-          margin: 10px 14px;
-        }
-        .pitchd-popup .leaflet-popup-tip {
-          box-shadow: none;
-        }
+        .pitchd-popup .leaflet-popup-content { margin: 10px 14px; }
+        .pitchd-popup .leaflet-popup-tip { box-shadow: none; }
       `}</style>
       <div
         ref={containerRef}
