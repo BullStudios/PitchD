@@ -33,9 +33,10 @@ function RuleRow({ label, value, yes = 'Yes', no = 'No', variant }) {
 
 function TimeRange({ from, to }) {
   if (!from && !to) return <span className="text-sm text-gray-400">Not specified</span>
+  const fmt = t => t ? t.slice(0, 5) : '—'
   return (
     <span className="text-sm font-medium">
-      {from ?? '—'} – {to ?? '—'}
+      {fmt(from)} – {fmt(to)}
     </span>
   )
 }
@@ -50,7 +51,6 @@ function AmpBadge({ value }) {
 export default async function CityPage({ params }) {
   const { slug } = await params
   const city = await getCityBySlug(slug)
-
   const pitches = city.pitches ?? []
 
   return (
@@ -104,21 +104,17 @@ export default async function CityPage({ params }) {
         </section>
       </div>
 
-      {/* Map */}
-      {pitches.length > 0 && (
-        <section className="mb-10">
-          <h2 className="text-xs uppercase tracking-widest text-gray-400 mb-4">
-            Pitch Locations ({pitches.length})
-          </h2>
-          <CityMap lat={city.lat} lng={city.lng} pitches={pitches} />
-        </section>
-      )}
+      {/* Map — always shown */}
+      <section className="mb-10">
+        <h2 className="text-xs uppercase tracking-widest text-gray-400 mb-4">
+          {pitches.length > 0 ? `Pitch Locations (${pitches.length})` : 'City Map'}
+        </h2>
+        <CityMap lat={city.lat} lng={city.lng} pitches={pitches} />
+      </section>
 
       {/* Pitches list */}
       <section>
-        <h2 className="text-xs uppercase tracking-widest text-gray-400 mb-4">
-          Top Spots
-        </h2>
+        <h2 className="text-xs uppercase tracking-widest text-gray-400 mb-4">Top Spots</h2>
         {pitches.length === 0 ? (
           <p className="text-sm text-gray-400 italic">No pitches listed yet — check back soon.</p>
         ) : (
