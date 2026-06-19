@@ -1,12 +1,18 @@
 import { supabase } from './supabase'
 
 export async function signUp(email, password, username) {
-  const { data, error } = await supabase.auth.signUp({
-    email,
-    password,
-    options: { data: { username } },
-  })
-  return { data, error }
+  const { data, error } = await supabase.auth.signUp({ email, password })
+  if (error) return { data, error }
+
+  // Insert profile directly — no trigger needed
+  if (data.user) {
+    await supabase.from('profiles').insert({
+      id: data.user.id,
+      username: username || email.split('@')[0],
+    })
+  }
+
+  return { data, error: null }
 }
 
 export async function signIn(email, password) {
