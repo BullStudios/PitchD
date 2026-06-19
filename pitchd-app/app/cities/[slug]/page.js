@@ -1,6 +1,7 @@
 import { getCityBySlug, getAllCities } from '@/lib/services/cities'
 import Link from 'next/link'
 import CityMap from '@/components/CityMap'
+import BuskedHereButton from '@/components/BuskedHereButton'
 
 export const revalidate = 86400
 export const dynamicParams = true
@@ -35,9 +36,7 @@ function TimeRange({ from, to }) {
   if (!from && !to) return <span className="text-sm text-gray-400">Not specified</span>
   const fmt = t => t ? t.slice(0, 5) : '—'
   return (
-    <span className="text-sm font-medium">
-      {fmt(from)} – {fmt(to)}
-    </span>
+    <span className="text-sm font-medium">{fmt(from)} – {fmt(to)}</span>
   )
 }
 
@@ -104,7 +103,7 @@ export default async function CityPage({ params }) {
         </section>
       </div>
 
-      {/* Map — always shown */}
+      {/* Map */}
       <section className="mb-10">
         <h2 className="text-xs uppercase tracking-widest text-gray-400 mb-4">
           {pitches.length > 0 ? `Pitch Locations (${pitches.length})` : 'City Map'}
@@ -136,7 +135,7 @@ export default async function CityPage({ params }) {
                 {pitch.description && (
                   <p className="text-sm text-gray-500 mb-3 leading-relaxed">{pitch.description}</p>
                 )}
-                <div className="flex flex-wrap gap-2">
+                <div className="flex flex-wrap gap-2 mb-3">
                   {pitch.amplified_allowed && (
                     <span className="text-xs bg-blue-50 text-blue-700 px-2 py-0.5 rounded-md">Amp ok</span>
                   )}
@@ -148,8 +147,9 @@ export default async function CityPage({ params }) {
                   )}
                 </div>
                 {pitch.tips && (
-                  <p className="text-xs text-gray-400 mt-3 italic">💡 {pitch.tips}</p>
+                  <p className="text-xs text-gray-400 mb-3 italic">💡 {pitch.tips}</p>
                 )}
+                <BuskedHereButton pitchId={pitch.id} initialCount={pitch.visit_count ?? 0} />
               </div>
             ))}
           </div>
