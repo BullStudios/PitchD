@@ -109,7 +109,7 @@ export default async function CityPage({ params }) {
         <h2 className="text-xs uppercase tracking-widest text-gray-400 mb-4">
           {pitches.length > 0 ? `Pitch Locations (${pitches.length})` : 'City Map'}
         </h2>
-        <CityMap lat={city.lat} lng={city.lng} pitches={pitches} />
+        <CityMap lat={city.lat} lng={city.lng} pitches={pitches} cityId={city.id} />
       </section>
 
       {/* Pitches list */}
