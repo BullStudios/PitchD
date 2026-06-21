@@ -2,6 +2,8 @@ import { getCityBySlug, getAllCities } from '@/lib/services/cities'
 import Link from 'next/link'
 import CityMap from '@/components/CityMap'
 import BuskedHereButton from '@/components/BuskedHereButton'
+import CityWeather from '@/components/CityWeather'
+import PitchPhotos from '@/components/PitchPhotos'
 
 export const revalidate = 86400
 export const dynamicParams = true
@@ -103,6 +105,12 @@ export default async function CityPage({ params }) {
         </section>
       </div>
 
+      {/* Weather */}
+      <section className="mb-10">
+        <h2 className="text-xs uppercase tracking-widest text-gray-400 mb-4">Current Conditions</h2>
+        <CityWeather lat={city.lat} lng={city.lng} />
+      </section>
+
       {/* Map */}
       <section className="mb-10">
         <h2 className="text-xs uppercase tracking-widest text-gray-400 mb-4">
@@ -150,6 +158,7 @@ export default async function CityPage({ params }) {
                   <p className="text-xs text-gray-400 mb-3 italic">💡 {pitch.tips}</p>
                 )}
                 <BuskedHereButton pitchId={pitch.id} initialCount={pitch.visit_count ?? 0} />
+                <PitchPhotos pitchId={pitch.id} />
               </div>
             ))}
           </div>
