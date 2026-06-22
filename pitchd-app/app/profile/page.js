@@ -62,15 +62,15 @@ export default function ProfilePage() {
 
   return (
     <main className="max-w-2xl mx-auto px-4 py-10">
-      {/* Header */}
-      <div className="flex items-start justify-between mb-8">
-        <div>
-          <h1 className="text-2xl font-semibold mb-1">
-            {profile?.username ?? 'Your profile'}
-          </h1>
-          {joinedDate && <p className="text-sm text-gray-400">Member since {joinedDate}</p>}
-        </div>
-        <div className="text-3xl">🎸</div>
+      {/* Back + Header */}
+      <nav className="text-sm text-gray-400 mb-6">
+        <a href="/cities" className="hover:text-gray-600 transition-colors">← Back to cities</a>
+      </nav>
+      <div className="mb-8">
+        <h1 className="text-2xl font-semibold mb-1">
+          {profile?.username ?? 'Your profile'}
+        </h1>
+        {joinedDate && <p className="text-sm text-gray-400">Member since {joinedDate}</p>}
       </div>
 
       {/* Stats */}
