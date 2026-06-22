@@ -6,7 +6,8 @@ export async function uploadPitchPhoto(pitchId, file, userId) {
   if (!supabase) return { error: 'No client' }
 
   const ext = file.name.split('.').pop()
-  const path = `${pitchId}/${userId}-${Date.now()}.${ext}`
+  // userId as top-level folder so storage delete policy works
+  const path = `${userId}/${pitchId}-${Date.now()}.${ext}`
 
   const { error: uploadError } = await supabase.storage
     .from(BUCKET)

@@ -20,7 +20,7 @@ export default function BuskedHereButton({ pitchId, initialCount = 0 }) {
           .select('id')
           .eq('pitch_id', pitchId)
           .eq('user_id', user.id)
-          .single()
+          .maybeSingle()
         setVisited(!!data)
       }
     })
