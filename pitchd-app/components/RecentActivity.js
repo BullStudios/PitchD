@@ -40,7 +40,7 @@ export default function RecentActivity() {
   )
 
   return (
-    <div className="space-y-2">
+    <div className="space-y-1">
       {activity.map(item => {
         const pitch = item.pitches
         const city = pitch?.cities
@@ -55,7 +55,7 @@ export default function RecentActivity() {
               <span className="text-base shrink-0">♪</span>
               <div className="min-w-0">
                 <p className="text-sm text-gray-700 truncate">
-                  <span className="font-medium">{item.profiles?.display_name ?? 'A busker'}</span>
+                  <span className="font-medium">{item.display_name}</span>
                   {' '}played{' '}
                   <span className="text-gray-500">{pitch.name}</span>
                 </p>
