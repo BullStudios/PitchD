@@ -8,7 +8,7 @@ export async function signUp(email, password, username) {
   if (data.user) {
     await supabase.from('profiles').insert({
       id: data.user.id,
-      username: username || email.split('@')[0],
+      display_name: username || email.split('@')[0],
     })
   }
 

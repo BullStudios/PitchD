@@ -4,7 +4,7 @@ export async function getPitchComments(pitchId) {
   if (!supabase) return []
   const { data, error } = await supabase
     .from('pitch_comments')
-    .select('id, comment, created_at, profiles(username)')
+    .select('id, comment, created_at, profiles(display_name)')
     .eq('pitch_id', pitchId)
     .order('created_at', { ascending: true })
   if (error) return []
@@ -16,7 +16,7 @@ export async function addPitchComment(pitchId, userId, comment) {
   const { data, error } = await supabase
     .from('pitch_comments')
     .insert({ pitch_id: pitchId, user_id: userId, comment })
-    .select('id, comment, created_at, profiles(username)')
+    .select('id, comment, created_at, profiles(display_name)')
     .single()
   return { data, error }
 }
@@ -32,7 +32,7 @@ export async function getRecentActivity(limit = 20) {
     .from('pitch_visits')
     .select(`
       id, visited_at,
-      profiles(username),
+      profiles(display_name),
       pitches(id, name, cities(name, slug))
     `)
     .order('visited_at', { ascending: false })
@@ -52,7 +52,7 @@ export async function getUserProfile(userId) {
     { data: recentVisits },
     { data: submissions },
   ] = await Promise.all([
-    supabase.from('profiles').select('username, created_at').eq('id', userId).single(),
+    supabase.from('profiles').select('display_name, created_at').eq('id', userId).single(),
     supabase.from('pitch_visits').select('*', { count: 'exact', head: true }).eq('user_id', userId),
     supabase.from('pitch_comments').select('*', { count: 'exact', head: true }).eq('user_id', userId),
     supabase.from('pitch_photos').select('*', { count: 'exact', head: true }).eq('uploaded_by', userId),

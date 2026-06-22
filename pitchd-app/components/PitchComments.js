@@ -75,7 +75,7 @@ export default function PitchComments({ pitchId }) {
               <div className="flex-1 bg-gray-50 rounded-lg px-3 py-2">
                 <div className="flex items-center gap-2 mb-0.5">
                   <span className="text-xs font-medium text-gray-700">
-                    {c.profiles?.username ?? 'Busker'}
+                    {c.profiles?.display_name ?? 'Busker'}
                   </span>
                   <span className="text-xs text-gray-300">{timeAgo(c.created_at)}</span>
                 </div>

@@ -55,7 +55,7 @@ export default function RecentActivity() {
               <span className="text-base shrink-0">♪</span>
               <div className="min-w-0">
                 <p className="text-sm text-gray-700 truncate">
-                  <span className="font-medium">{item.profiles?.username ?? 'A busker'}</span>
+                  <span className="font-medium">{item.profiles?.display_name ?? 'A busker'}</span>
                   {' '}played{' '}
                   <span className="text-gray-500">{pitch.name}</span>
                 </p>

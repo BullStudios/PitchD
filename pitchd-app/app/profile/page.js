@@ -68,7 +68,7 @@ export default function ProfilePage() {
       </nav>
       <div className="mb-8">
         <h1 className="text-2xl font-semibold mb-1">
-          {profile?.username ?? 'Your profile'}
+          {profile?.display_name ?? 'Your profile'}
         </h1>
         {joinedDate && <p className="text-sm text-gray-400">Member since {joinedDate}</p>}
       </div>
