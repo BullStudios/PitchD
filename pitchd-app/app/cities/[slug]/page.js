@@ -58,9 +58,9 @@ export default async function CityPage({ params }) {
   return (
     <main className="max-w-4xl mx-auto px-4 py-10">
       {/* Breadcrumb */}
-      <nav className="text-sm text-gray-400 mb-6">
-        <Link href="/cities" className="hover:text-gray-600 transition-colors">Cities</Link>
-        <span className="mx-2">/</span>
+      <nav className="text-sm text-gray-400 mb-6 flex items-center gap-2">
+        <Link href="/cities" className="hover:text-gray-600 transition-colors">← Back to cities</Link>
+        <span>/</span>
         <span className="text-gray-700">{city.name}</span>
       </nav>
 
