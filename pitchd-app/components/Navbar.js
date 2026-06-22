@@ -47,7 +47,9 @@ export default function Navbar() {
                 </Link>
               )}
               <span className="text-sm text-gray-400 hidden sm:block">
-                {user.user_metadata?.username ?? user.email}
+                <Link href="/profile" className="hover:text-gray-700 transition-colors">
+                  {user.user_metadata?.username ?? user.email}
+                </Link>
               </span>
               <button
                 onClick={handleSignOut}
