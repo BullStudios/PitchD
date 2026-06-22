@@ -14,7 +14,7 @@ const INSTRUMENTS = [
 
 function BuskerCard({ busker }) {
   return (
-    <div className="border border-gray-200 rounded-xl p-5 flex items-start gap-4">
+    <Link href={`/buskers/${busker.id}`} className="border border-gray-200 rounded-xl p-5 flex items-start gap-4 hover:bg-gray-50 transition-colors">
       <div className="shrink-0">
         {busker.avatar_url ? (
           <img
@@ -45,7 +45,7 @@ function BuskerCard({ busker }) {
           <p className="text-xs text-gray-400 mt-2 line-clamp-2 leading-relaxed">{busker.bio}</p>
         )}
       </div>
-    </div>
+    </Link>
   )
 }
 

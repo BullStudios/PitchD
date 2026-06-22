@@ -5,6 +5,7 @@ import BuskedHereButton from '@/components/BuskedHereButton'
 import CityWeather from '@/components/CityWeather'
 import PitchPhotos from '@/components/PitchPhotos'
 import PitchComments from '@/components/PitchComments'
+import PitchRating from '@/components/PitchRating'
 
 export const revalidate = 86400
 export const dynamicParams = true
@@ -159,6 +160,7 @@ export default async function CityPage({ params }) {
                   <p className="text-xs text-gray-400 mb-3 italic">💡 {pitch.tips}</p>
                 )}
                 <BuskedHereButton pitchId={pitch.id} initialCount={pitch.visit_count ?? 0} />
+                <PitchRating pitchId={pitch.id} />
                 <PitchPhotos pitchId={pitch.id} />
                 <PitchComments pitchId={pitch.id} />
               </div>

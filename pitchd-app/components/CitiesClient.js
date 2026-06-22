@@ -3,6 +3,7 @@
 import { useState, useMemo } from 'react'
 import CityCard from '@/components/CityCard'
 import RecentActivity from '@/components/RecentActivity'
+import NearMe from '@/components/NearMe'
 
 const FILTERS = [
   { key: 'all',       label: 'All cities' },
@@ -98,10 +99,16 @@ export default function CitiesClient({ cities }) {
           )}
         </div>
 
-        {/* Right — activity feed */}
-        <div className="lg:col-span-1">
-          <h2 className="text-xs uppercase tracking-widest text-gray-400 mb-4">Recently busked</h2>
-          <RecentActivity />
+        {/* Right — near me + activity feed */}
+        <div className="lg:col-span-1 space-y-8">
+          <div>
+            <h2 className="text-xs uppercase tracking-widest text-gray-400 mb-4">Nearby pitches</h2>
+            <NearMe />
+          </div>
+          <div>
+            <h2 className="text-xs uppercase tracking-widest text-gray-400 mb-4">Recently busked</h2>
+            <RecentActivity />
+          </div>
         </div>
       </div>
     </main>
