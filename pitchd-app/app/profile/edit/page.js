@@ -5,6 +5,8 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { supabase } from '@/lib/supabase'
 import { getProfile, updateProfile, uploadAvatar } from '@/lib/services/buskers'
+import VideoUpload from '@/components/VideoUpload'
+import { getProfileVideos } from '@/lib/services/videos'
 
 const INSTRUMENTS = [
   'Guitar', 'Acoustic Guitar', 'Electric Guitar', 'Bass Guitar',
@@ -27,6 +29,8 @@ export default function EditProfilePage() {
   const [error, setError] = useState('')
   const [avatarPreview, setAvatarPreview] = useState(null)
   const [userId, setUserId] = useState(null)
+  const [profileVideos, setProfileVideos] = useState([])
+  const [showVideoUpload, setShowVideoUpload] = useState(false)
 
   const [form, setForm] = useState({
     display_name: '',
@@ -44,7 +48,8 @@ export default function EditProfilePage() {
     supabase.auth.getUser().then(async ({ data: { user } }) => {
       if (!user) { router.push('/auth/login'); return }
       setUserId(user.id)
-      const profile = await getProfile(user.id)
+      const [profile, vids] = await Promise.all([getProfile(user.id), getProfileVideos(user.id)])
+      setProfileVideos(vids)
       if (profile) {
         setForm({
           display_name: profile.display_name ?? '',
@@ -237,6 +242,32 @@ export default function EditProfilePage() {
             className="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm outline-none focus:border-gray-400 resize-none"
           />
           <p className="text-xs text-gray-300 mt-1 text-right">{form.bio.length}/300</p>
+        </div>
+
+        {/* Profile clips */}
+        <div>
+          <label className="block text-sm text-gray-600 mb-1.5">Profile clips</label>
+          {profileVideos.length > 0 && (
+            <div className="grid grid-cols-3 gap-2 mb-3">
+              {profileVideos.map(v => (
+                <div key={v.id} className="relative rounded-lg overflow-hidden bg-black aspect-video">
+                  <video src={v.url} className="w-full h-full object-cover opacity-80" muted playsInline preload="metadata" />
+                  <div className="absolute inset-0 flex items-center justify-center text-white text-sm">▶</div>
+                </div>
+              ))}
+            </div>
+          )}
+          {!showVideoUpload ? (
+            <button type="button" onClick={() => setShowVideoUpload(true)}
+              className="text-sm border border-gray-200 rounded-lg px-4 py-2 text-gray-500 hover:border-gray-400 transition-colors">
+              + Add a clip to your profile
+            </button>
+          ) : (
+            <VideoUpload
+              userId={userId}
+              onUploaded={v => { setProfileVideos(prev => [v, ...prev]); setShowVideoUpload(false) }}
+            />
+          )}
         </div>
 
         {/* Directory opt-in */}

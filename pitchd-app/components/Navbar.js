@@ -41,6 +41,9 @@ export default function Navbar() {
               <Link href="/buskers" className="text-sm text-gray-500 hover:text-gray-800 transition-colors">
                 Buskers
               </Link>
+              <Link href="/videos" className="text-sm text-gray-500 hover:text-gray-800 transition-colors">
+                Clips
+              </Link>
               <Link href="/cities/add" className="text-sm text-gray-500 hover:text-gray-800 transition-colors">
                 + Add city
               </Link>

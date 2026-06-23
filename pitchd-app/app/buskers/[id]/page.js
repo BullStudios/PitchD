@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import { useParams } from 'next/navigation'
 import Link from 'next/link'
 import { getBuskerById, getBuskerStats, getFollowCounts } from '@/lib/services/buskers'
+import { getProfileVideos } from '@/lib/services/videos'
 import FollowButton from '@/components/FollowButton'
 
 function timeAgo(dateStr) {
@@ -24,6 +25,7 @@ export default function BuskerProfilePage() {
   const [follows, setFollows] = useState({ followers: 0, following: 0 })
   const [loading, setLoading] = useState(true)
   const [notFound, setNotFound] = useState(false)
+  const [videos, setVideos] = useState([])
 
   useEffect(() => {
     if (!id) return
@@ -31,11 +33,13 @@ export default function BuskerProfilePage() {
       getBuskerById(id),
       getBuskerStats(id),
       getFollowCounts(id),
-    ]).then(([b, s, f]) => {
+      getProfileVideos(id),
+    ]).then(([b, s, f, v]) => {
       if (!b) { setNotFound(true); setLoading(false); return }
       setBusker(b)
       setStats(s)
       setFollows(f)
+      setVideos(v)
       setLoading(false)
     })
   }, [id])
@@ -145,6 +149,26 @@ export default function BuskerProfilePage() {
                 </Link>
               )
             })}
+          </div>
+        </section>
+      )}
+      {videos.length > 0 && (
+        <section className="mt-8">
+          <h2 className="text-xs uppercase tracking-widest text-gray-400 mb-4">Clips</h2>
+          <div className="grid grid-cols-2 gap-3">
+            {videos.map(v => (
+              <div key={v.id} className="relative rounded-xl overflow-hidden bg-black aspect-video">
+                <video
+                  src={v.url}
+                  controls
+                  playsInline
+                  className="w-full h-full object-cover"
+                />
+                {v.caption && (
+                  <p className="text-xs text-gray-400 mt-1 px-1">{v.caption}</p>
+                )}
+              </div>
+            ))}
           </div>
         </section>
       )}
